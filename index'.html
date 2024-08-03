@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<style>
+    body {
+        background-color: #180161;
+        color: white;
+    }
+
+    .btn {
+        border: 2px solid black;
+        margin: 5px;
+        height: 50px;
+        width: 50px;
+        color: white;
+        background-color: black;
+    }
+
+
+    .display {
+        font-family: 'Press Start 2P', cursive;
+        font-size: 2rem;
+        color: #000;
+        background-color: #fff;
+        text-align: start;
+        padding: 10px;
+        border: 1px solid white;
+        border-radius: 5px;
+        height: 10vh;
+    }
+
+
+
+
+    button {
+        width: 100px;
+        margin: 2px;
+        margin-bottom: 10px;
+        border-radius: 7px;
+        background-color: blue;
+        color: white;
+        border: none;
+    }
+
+    .source-code {
+        border: 2px solid white;
+        border-radius: 20px;
+
+    }
+
+
+    .pressed {
+        box-shadow: 0 3px 4px 0 #DBEDF3;
+        opacity: 0.5;
+        background-color: green;
+    }
+</style>
+
+<body>
+    <div class="container mt-3 ">
+        .
+        <div class="row">
+            <div class="col-6">
+                <h4>Adhi</h4>
+                <h6>calc-mob-version</h6>
+            </div>
+            <div class="col-5 source-code d-flex flex-column  justify-content-center align-items-center">
+                <h4>source code</h4>
+            </div>
+            <div class="col-11 container display  m-3 rounded">
+                <div class=" text-dark d-flex justify-content-center" id="display"></div>
+            </div>
+            <div class="col-12 keyboard" style="margin-left:14px;border-radius:12px;">
+
+                <button onclick="matrix()">matrix</button>
+                <button onclick="det()">det</button>
+                <button onclick="inverse()">inverse</button>
+                <button class="btn btn9 bg-warning text-dark" onclick="appendtodisplay('(')"
+                    style="width:150px;">(</button>
+                <button class="btn btn9 bg-warning text-dark" onclick="appendtodisplay(')')"
+                    style="width:150px">)</button>
+                <button class="btn btn7" onclick="appendtodisplay(7)" onkeydown="appendtodisplay(7)">7</button>
+                <button class="btn btn8" onclick="appendtodisplay(8)" onkeydown="appendtodisplay(8)">8</button>
+                <button class="btn btn9" onclick="appendtodisplay(9)">9</button>
+                <button class="btn bg-danger" onclick="deleteLastElement()">DEL</button>
+                <button class="btn bg-danger" onclick="clearDisplay()">AC</button>
+                <button class="btn" onclick="appendtodisplay(4)">4</button>
+                <button class="btn" onclick="appendtodisplay(5)">5</button>
+                <button class="btn" onclick="appendtodisplay(6)">6</button>
+                <button class="btn" onclick="appendtodisplay('*')">*</button>
+                <button class="btn" onclick="appendtodisplay('/')">/</button>
+                <button class="btn" onclick="appendtodisplay(1)">1</button>
+                <button class="btn" onclick="appendtodisplay(2)">2</button>
+                <button class="btn" onclick="appendtodisplay(3)">3</button>
+                <button class="btn" id="plus" onclick="appendtodisplay('+')">+</button>
+                <button class="btn" onclick="appendtodisplay('-')">-</button>
+                <button class="btn" onclick="appendtodisplay('^')">^</button>
+                <button class="btn" onclick="appendtodisplay(0)">0</button>
+                <button class="btn" onclick="appendtodisplay('.')">.</button>
+                <button class="btn">ans</button>
+
+                <button class="btn" onclick="appendtodisplay('*10')">*10</button>
+                <button class="btn" onclick="squareRoot();">sqrt</button>
+                <button class="btn" onclick="power()">pow</button>
+                <button class="btn" onclick="appendtodisplay('%')">%</button>
+                <button class="btn">off</button>
+                <button class="btn bg-success" onclick="calculate()" id="calc">=</button>
+            </div>
+            <div class="col-12 mt-3 d-flex justify-content-center ">
+                <h3><a href="#" class="text-light">view in orginal matrix form</a></h3>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+        function appendtodisplay(event) {
+            $("#display").append(event);
+        }
+
+        function clearDisplay() {
+            $("#display").text('');
+        }
+
+        function deleteLastElement() {
+            var expression = $("#display").text();
+            $("#display").text(expression.slice(0, -1));
+        }
+
+
+        function power() {
+            let expression = $("#display").text();
+            let expressionWithCarrot = "";
+
+            for (let i = 0; i < expression.length; i++) {
+                if (expression[i] === "^") {
+                    expressionWithCarrot += "**";
+                } else {
+                    expressionWithCarrot += expression[i];
+                }
+            }
+            $("#display").text(eval(expressionWithCarrot.trim()));
+            $("#calc").click(function (expressionWithCarrot) {
+                $("#display").text(eval(expressionWithCarrot.trim()));
+            })
+        }
+
+
+        function squareRoot() {
+            let expression = $("#display").text();
+            console.log(expression);
+            let result;
+            try {
+                result = Math.sqrt(eval(expression.trim()));
+            } catch (error) {
+                result = "error";
+            }
+            $("#display").text(result.toFixed(2));
+        }
+
+
+        $("#calc").click(function () {
+
+            try {
+                var expression = $("#display").text();
+                $("#display").text(eval(expression))
+            }
+            catch (error) {
+                $("#display").text("error");
+            }
+
+
+        })
+
+        // matrix formula
+      
+    function matrix(){
+        $("#display").text("unavailable")
+    }
+    function det(){
+        $("#display").text("unavailable")
+    }
+    function inverse(){
+        $("#display").text("unavailable")
+    }
+
+    document.addEventListener("click",function(){
+        var audio = new Audio("zapsplat_office_calculator_button_press_single_001_11983.mp3");
+        audio.play();
+    })
+ 
+    </script>
+</body>
+
+
+
+</html>
